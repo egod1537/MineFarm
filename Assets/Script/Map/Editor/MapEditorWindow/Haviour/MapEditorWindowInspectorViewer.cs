@@ -38,7 +38,6 @@ namespace Minefarm.Map.Window
                 if (GUILayout.Button("Reload")) window.Reload();
             }
             EditorGUILayout.EndHorizontal();
-            window.isPixelized = EditorGUILayout.Toggle("Pixelized", window.isPixelized);
 
             EditorGUILayout.BeginVertical("Box");
             {

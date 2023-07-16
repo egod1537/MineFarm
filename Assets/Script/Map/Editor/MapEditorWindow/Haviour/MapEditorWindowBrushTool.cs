@@ -59,9 +59,7 @@ namespace Minefarm.Map.Window
                 case EventType.KeyDown:
                     if(e.keyCode == KeyCode.A)
                     {
-                        Debug.Log(selectedBlock);
                         BlockModel block = window.map.CreateBlock(window.selectedPosition, selectedBlock);
-                        if(block != null) block.isPixelized = window.isPixelized;
                         e.Use();
                     }
                     if(e.keyCode == KeyCode.D)

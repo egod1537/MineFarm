@@ -31,7 +31,6 @@ namespace Minefarm.Map.Window
 
         public EditToolType selectedTool;
         public Vector3Int selectedPosition;
-        public bool isPixelized;
 
         public List<MapEditorWindowHaviour> haviours = new();
         public MapEditorWindowInspectorViewer inspectorViwer;
@@ -116,8 +115,6 @@ namespace Minefarm.Map.Window
         {
             if (map == null || map.mapData == null) return;
             map.Load();
-            foreach (var block in map.blockModels)
-                block.Value.isPixelized = isPixelized;
         }
         private void AlignBlocks()
         {
