@@ -42,6 +42,14 @@ namespace Minefarm.Item.Equipment
         public float plusSpeed;
         public float plusSpeedPercent = 1.0f;
 
+        /// <summary>
+        /// Entity가 weapon에 들고 Interactive할 때 호출되는 함수
+        /// </summary>
+        public void OnInteractive()
+        {
+
+        }
+
         public void OnEquip()
         {
 

@@ -4,6 +4,7 @@ namespace Minefarm.Entity
     {
         Unknown,
         Ally,
-        Enemy
+        Enemy,
+        Block
     }
 }
