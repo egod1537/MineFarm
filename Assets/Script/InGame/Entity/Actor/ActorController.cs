@@ -23,16 +23,15 @@ namespace Minefarm.Entity
         const float DISTANCE_JUMP_CHECK = 0.5f;
 
         int LAYER_BLOCK { get => 1 << LayerMask.NameToLayer("Block"); }
-
+        
         protected ActorModel actorModel { get => (ActorModel)entityModel; }
 
-        Rigidbody rigidbody;
+        private Rigidbody _rigidbody;
+        protected Rigidbody rigidbody { get => _rigidbody ??= GetComponent<Rigidbody>(); }
         float delayJump;
 
         public override void Awake()
         {
-            rigidbody = GetComponent<Rigidbody>();
-
             this.UpdateAsObservable()
                 .Where(_ => actorModel.buffs.Count > 0 &&
                     actorModel.buffs.Peek().GetEndTime() >= GameManager.time)
@@ -78,6 +77,7 @@ namespace Minefarm.Entity
                 dir,
                 maxRadianDelta,
                 0f);
+            rotationDir.y = 0f;
             rigidbody.MoveRotation(Quaternion.LookRotation(rotationDir));
         }
 

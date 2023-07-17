@@ -1,3 +1,5 @@
+using Minefarm.InGame;
+using Minefarm.Map;
 using Minefarm.Map.Block;
 using System;
 using System.Collections;
@@ -36,6 +38,13 @@ namespace Minefarm.Entity
                 .Where(entity => entity is BlockModel)
                 .Select(entity => (BlockModel) entity)
                 .Subscribe(block => block.Destroy());
+        }
+
+        private void Update()
+        {
+            MapModel map = GameManager.ins.map;
+            Vector3 to = map.WorldToMapIndex(transform.position);
+            Vector3 a = map.transform.ToMat().MultiplyPoint(transform.position);
         }
     }
 }

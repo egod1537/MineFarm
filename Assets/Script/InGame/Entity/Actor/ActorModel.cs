@@ -97,6 +97,11 @@ namespace Minefarm.Entity
 
         public bool isGround;
 
+        public virtual void Awake()
+        {
+            equips = new EquipmentFrame(this);
+        }
+
         public virtual void Update()
         {
             ProcessEquipment();

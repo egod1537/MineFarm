@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UniRx;
 using UniRx.Triggers;
 using TMPro;
+using Minefarm.Map.Block;
 
 namespace Minefarm.Entity
 {
@@ -36,6 +37,22 @@ namespace Minefarm.Entity
         /// Ã¼·Â
         /// </summary>
         public int hp;
+
+        public Vector3Int mapPos
+        {
+            get
+            {
+                RaycastHit hit;
+                if (Physics.SphereCast(
+                    new Ray(transform.position+transform.up*0.5f, -transform.up),
+                    0.25f,
+                    out hit,
+                    Mathf.Infinity,
+                    1 << LayerMask.NameToLayer("Block")))
+                    return hit.transform.GetComponent<BlockModel>().pos;
+                return -Vector3Int.one;
+            }
+        }
 
         public int GetMaxHp() => Mathf.RoundToInt(maxHpPercent * maxHp);
     }

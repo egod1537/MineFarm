@@ -138,6 +138,11 @@ namespace Minefarm.Map
             return mat.MultiplyPoint(vec);
         }
         public Vector3Int WorldToMapIndex(Vector3 vec)
-            => (WorldToMapPosition(vec).ToRound() - Vector3.one*0.5f).ToVector3Int();
+            => WorldToMapPosition(vec).ToVector3Int();
+        public Vector3 MapIndexToWorldPosition(Vector3Int vec)
+        {
+            Matrix4x4 mat = transform.ToMat();
+            return mat.MultiplyPoint(vec + Vector3.one*0.5f);
+        }
     }
 }

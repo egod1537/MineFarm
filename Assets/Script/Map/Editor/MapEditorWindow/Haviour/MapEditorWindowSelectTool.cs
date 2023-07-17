@@ -149,6 +149,7 @@ namespace Minefarm.Map.Window
             Handles.color = Color.red;
             Handles.matrix = map.transform.ToMat();
             Handles.DrawWireCube(pos+Vector3.one*0.5f, Vector3.one);
+            Handles.Label(pos+Vector3Int.one, $"{pos.ToVector3Int()}");
         }
     }
 }
