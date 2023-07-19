@@ -1,18 +1,11 @@
+using Minefarm.Entity.Actor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class NPCModel : MonoBehaviour
+namespace Minefarm.Entity.Actor.NPC
 {
-    // Start is called before the first frame update
-    void Start()
+    public class NPCModel : ActorModel
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

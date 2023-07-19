@@ -1,16 +1,12 @@
-using Minefarm.InGame;
-using Minefarm.Map;
 using Minefarm.Map.Block;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
-namespace Minefarm.Entity
+namespace Minefarm.Entity.Actor.Player
 {
     public class PlayerController : ActorController
     {
+        public PlayerModel playerModel { get=> actorModel as PlayerModel; }
         public override void Awake()
         {
             base.Awake();
@@ -31,20 +27,16 @@ namespace Minefarm.Entity
                 .Subscribe(dir => base.Move(dir));
 
             this.UpdateAsObservable()
-                .Where(_ => Input.GetMouseButtonDown(0))
-                .Subscribe(_ => Interactive());
-
-            base.actorModel.onInteractive
-                .Where(entity => entity is BlockModel)
-                .Select(entity => (BlockModel) entity)
-                .Subscribe(block => block.Destroy());
+                .Where(_ => Input.GetMouseButton(0))
+                .Subscribe(_ =>
+                {
+                    if (!FowardAction()) playerModel.onSwing.Invoke();
+                });
         }
 
-        private void Update()
+        public void Break(BlockModel block, int damage)
         {
-            MapModel map = GameManager.ins.map;
-            Vector3 to = map.WorldToMapIndex(transform.position);
-            Vector3 a = map.transform.ToMat().MultiplyPoint(transform.position);
+            
         }
     }
 }

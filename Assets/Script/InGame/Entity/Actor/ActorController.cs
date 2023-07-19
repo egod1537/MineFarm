@@ -1,149 +1,82 @@
-using Minefarm.Effect.Buff;
-using Minefarm.Item;
-using System.Collections;
-using System.Collections.Generic;
 using UniRx.Triggers;
 using UniRx;
 using UnityEngine;
 using Minefarm.InGame;
-using Unity.VisualScripting;
-using Minefarm.Item.Equipment;
 using Minefarm.Map.Block;
 
-namespace Minefarm.Entity
+namespace Minefarm.Entity.Actor
 {
     [RequireComponent(typeof(ActorModel))]
     public class ActorController : EntityController
-    {
-        const float SPEED_CONSTANT = 5f;
-        const float SPEED_ROTATION = 30f;
-
-        const float JUMPPOWER_CONSTANT = 250f;
-        const float DELAY_JUMP = 0.5f;
-        const float DISTANCE_JUMP_CHECK = 0.5f;
-
-        int LAYER_BLOCK { get => 1 << LayerMask.NameToLayer("Block"); }
-        
+    {     
         protected ActorModel actorModel { get => (ActorModel)entityModel; }
-
-        private Rigidbody _rigidbody;
-        protected Rigidbody rigidbody { get => _rigidbody ??= GetComponent<Rigidbody>(); }
-        float delayJump;
-
-        public override void Awake()
+        public virtual void Awake()
         {
-            this.UpdateAsObservable()
-                .Where(_ => actorModel.buffs.Count > 0 &&
-                    actorModel.buffs.Peek().GetEndTime() >= GameManager.time)
-                .Subscribe(_ => actorModel.buffs.Dequeue().OnDisable());
-
-            this.UpdateAsObservable()
-                .Subscribe(_ => delayJump -= Time.deltaTime);
-            base.Awake();
+            SubscribeStream();
         }
 
-        public virtual void OnEnable()
+        private void SubscribeStream()
         {
-            Spawn();
+            this.OnCollisionEnterAsObservable()
+                .Select(collider => collider.gameObject)
+                .Where(go => go.layer == LayerMask.NameToLayer("Block"))
+                .Subscribe(_ => actorModel.isGround = true);
         }
 
         public override void Spawn()
         {
-            actorModel.equips = new EquipmentFrame(actorModel);
+            actorModel.hp = actorModel.calculatedMaxHp;
             base.Spawn();
         }
 
-        public override void Death()
+        public bool FowardAction()
         {
-            actorModel.ClearBuff();
-            base.Death();
+            EntityModel fowardEntity = GetFowardEntity();
+            if (fowardEntity == null) return false;
+            if (actorModel.fowardActionable.Action(fowardEntity))
+            {
+                actorModel.onFowardAction.Invoke(fowardEntity);
+                return true;
+            }
+            return false;
         }
 
-        public virtual bool Move(Vector3 dir)
+        public void Move(Vector3 direction)
         {
-            LookAt(dir, SPEED_ROTATION * Time.deltaTime);
-            if (!IsMovement(dir)) return false;
-            rigidbody.MovePosition(
-                rigidbody.position + 
-                dir * Time.deltaTime * actorModel.speed * SPEED_CONSTANT);
-            actorModel.onMove.Invoke(dir);
-            return true;
+            if (actorModel.moveable.Move(direction))
+                actorModel.onMove.Invoke(direction);
         }
 
-        public void LookAt(Vector3 dir, float maxRadianDelta)
+        public void Attack(ActorModel target, int damage)
         {
-            Vector3 rotationDir = Vector3.RotateTowards(
-                actorModel.body.forward,
-                dir,
-                maxRadianDelta,
-                0f);
-            rotationDir.y = 0f;
-            rigidbody.MoveRotation(Quaternion.LookRotation(rotationDir));
+            if (actorModel.attackable.Attack(target, damage))
+                actorModel.onAttack.Invoke(target, damage);
         }
 
-        protected bool IsMovement(Vector3 dir)
-            => GetFowardEntity(dir, Time.deltaTime * actorModel.speed * SPEED_CONSTANT, LAYER_BLOCK) == null;
-
-        public virtual bool Jump()
+        public void Jump()
         {
-            if (!IsJump()) return false;
-            Vector3 velocity = rigidbody.velocity;
-            velocity.y = 0f;
-            rigidbody.velocity = velocity;
-
-            rigidbody.AddForce(
-                transform.up * actorModel.jumpPower * JUMPPOWER_CONSTANT);
-            actorModel.onJump.Invoke();
-
-            delayJump = DELAY_JUMP;
-            actorModel.isGround = false;
-
-            return true;
+            if (actorModel.jumpable.Jump())
+                actorModel.onJump.Invoke();
         }
 
-        protected bool IsJump()
-            => delayJump <= 0f && actorModel.isGround;
-
-        protected EntityModel GetFowardEntity(Vector3 foawrd, float distance=1f, int layer=0)
+        public void Damge(ActorModel target, int damage)
         {
-            if (layer == 0) layer = ~0;
+            bool isCritical = false;
+            int retDamage = -1;
+            if (actorModel.damageable.Damage(target, damage, out retDamage, out isCritical))
+                actorModel.onDamage.Invoke(target, retDamage, isCritical);
+        }
+
+        public EntityModel GetFowardEntity(Vector3 foawrd, float distance = 1f, int layer = ~0)
+        {
             RaycastHit hit;
             Ray ray = new Ray(rigidbody.position + transform.up * 0.5f, foawrd);
 
-            if(Physics.SphereCast(ray, 0.25f, out hit, distance+0.5f, layer))
+            if (Physics.SphereCast(ray, 0.15f, out hit, distance + 0.15f, layer))
                 return hit.transform.GetComponent<EntityModel>();
             return null;
         }
-        protected EntityModel GetFowardEntity(float distance = 1f, int layer = 0)
+        public EntityModel GetFowardEntity(float distance = 1f, int layer = ~0)
             => GetFowardEntity(actorModel.body.forward, distance, layer);
-
-        public virtual bool Interactive()
-        {
-            EntityModel entity = GetFowardEntity();
-            actorModel.onInteractive.OnNext(entity);
-            return entity != null;
-        }
-
-        public bool Attack(ActorModel target, int damage)
-        {
-            if (!actorModel.InAttackRange(target)) return false;
-            if(target.controller.Damage(actorModel, damage))
-            {
-                actorModel.onAttack.Invoke(target, damage);
-                return true;
-            }
-            return false;
-        }
-        public bool Damage(ActorModel suspect, int damage)
-        {
-            damage = actorModel.FormulateDamage(suspect, damage);
-            if(damage > 0)
-            {
-                actorModel.hp -= damage;
-                actorModel.onDamage.Invoke(suspect, damage);
-                return true;
-            }
-            return false;
-        }
     }
 }

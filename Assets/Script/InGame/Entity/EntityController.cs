@@ -1,6 +1,8 @@
 using UniRx.Triggers;
 using UnityEngine;
 using UniRx;
+using Minefarm.Map;
+using Minefarm.InGame;
 
 namespace Minefarm.Entity
 {
@@ -10,24 +12,31 @@ namespace Minefarm.Entity
         private EntityModel _entityModel;
         protected EntityModel entityModel { get => _entityModel ??= GetComponent<EntityModel>(); }
 
-        public virtual void Awake()
+        private Rigidbody _rigidbody;
+        protected Rigidbody rigidbody { get=>_rigidbody ??= GetComponent<Rigidbody>(); }
+
+        protected MapModel map { get => GameManager.ins.map; }
+
+        public void Start()
         {
-            this.UpdateAsObservable()
-                .Where(_ => entityModel.isLive && entityModel.hp <= 0)
-                .Subscribe(_ => Death());
+            Spawn();
+        }
+
+        public void OnDestroy()
+        {
+            Kill();
         }
 
         public virtual void Spawn()
         {
             entityModel.isLive = true;
-            entityModel.hp = entityModel.GetMaxHp();
             entityModel.onSpawn.Invoke();
         }
 
-        public virtual void Death()
+        public virtual void Kill()
         {
             entityModel.isLive = false;
-            entityModel.onDeath.Invoke();
+            entityModel.onKill.Invoke();
         }
     }
 }

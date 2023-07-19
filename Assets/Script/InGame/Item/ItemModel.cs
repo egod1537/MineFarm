@@ -5,9 +5,7 @@ namespace Minefarm.Item
 {
     public class ItemModel
     {
-        /// <summary>
-        /// 아이템 종류
-        /// </summary>
-        public ItemID id;
+        public ItemID itemID;
     }
 }
+

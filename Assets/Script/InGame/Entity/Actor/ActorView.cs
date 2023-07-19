@@ -1,34 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Minefarm.Entity
+namespace Minefarm.Entity.Actor
 {
     public class ActorView : MonoBehaviour
     {
-        private ActorModel _model;
-        public ActorModel model { get => _model ??= GetComponent<ActorModel>(); }
+        private ActorModel _actorModel;
+        public ActorModel actorModel { get => _actorModel ??= GetComponent<ActorModel>(); }
 
-        Animator animtor;
+        protected Animator animator;
 
         public void Awake()
         {
-            animtor = model.body.GetComponent<Animator>();
+            animator = actorModel.body.GetComponent<Animator>();
 
-            model.onMove.AddListener(dir =>
+            actorModel.onMove.AddListener(dir =>
             {
-                animtor.SetFloat("Move X", dir.x);    
-                animtor.SetFloat("Move Y", dir.z);    
+                animator.SetFloat("Move X", dir.x);
+                animator.SetFloat("Move Y", dir.z);    
             });
 
-            model.onAttack.AddListener((target, damage) =>
+            actorModel.onAttack.AddListener((target, damage) =>
             {
-                animtor.Play("Swing");
+                animator.Play("Attack");
+            });
+
+            actorModel.onDamage.AddListener((target, damage, isCritical) =>
+            {
+                animator.Play("Damage");
             });
         }
 
         private void Update()
         {
-            animtor.SetBool("IsGround", model.isGround);
+            animator.SetBool("IsGround", actorModel.isGround);
         }
     }
 }

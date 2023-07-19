@@ -43,7 +43,8 @@ namespace Minefarm.Map
         /// <returns></returns>
         public static List<Vector3Int> ShortestPath(MapModel map, Vector3Int start, Vector3Int end)
         {
-            if (!map.InArea(start) || !map.InArea(end)) return null;
+            List<Vector3Int> ret = new();
+            if (!map.InArea(start) || !map.InArea(end)) return ret;
             Dictionary<Vector3Int, int> dst = new();
             Dictionary<Vector3Int, Vector3Int> track = new();
 
@@ -68,7 +69,7 @@ namespace Minefarm.Map
                 return y1 && y2 && y3;
             }
             
-            if(!chk(start) || !chk(end)) return null;
+            if(!chk(start) || !chk(end)) return ret;
 
             PriorityQueue<Q> pq = new PriorityQueue<Q>();
             pq.Add(new Q(start, 0, end));
@@ -119,9 +120,8 @@ namespace Minefarm.Map
                         }
                     }
             }
-            if (!isArrived) return null;
+            if (!isArrived) return ret;
 
-            List<Vector3Int> ret = new();
             ret.Add(end);
             while (end != start)
             {

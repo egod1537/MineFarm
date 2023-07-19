@@ -144,5 +144,10 @@ namespace Minefarm.Map
             Matrix4x4 mat = transform.ToMat();
             return mat.MultiplyPoint(vec + Vector3.one*0.5f);
         }
+
+        public List<Vector3Int> GetShortestPath(Vector3Int start, Vector3Int end)
+            => MapAlgorithm.ShortestPath(this, start, end);
+        public int GetShortestDistance(Vector3Int start, Vector3Int end)
+            => GetShortestPath(start, end).Count - 1;
     }
 }

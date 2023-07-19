@@ -1,25 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
-using UniRx.Triggers;
-using Unity.VisualScripting;
 using UnityEngine;
 using UniRx;
-using Minefarm.InGame;
-using Minefarm.Effect.Buff;
-using Minefarm.Item;
-using Minefarm.Item.Equipment;
 using UnityEngine.Events;
+using Minefarm.Entity.Actor.Interface;
+using Minefarm.Entity.Actor.Jumpable;
+using Minefarm.Entity.Actor.Moveable;
+using Minefarm.Entity.Actor.Attackable;
+using Minefarm.Map.Block;
+using Minefarm.Entity.Actor.FowardActionable;
+using Minefarm.Entity.Actor.Damageable;
 
-namespace Minefarm.Entity
+namespace Minefarm.Entity.Actor
 {
     [RequireComponent(typeof(ActorController))]
     public class ActorModel : EntityModel
     {
         public UnityEvent<Vector3> onMove = new();
         public UnityEvent onJump = new();
-        public UnityEvent<ActorModel, int> onAttack = new();
-        public UnityEvent<ActorModel, int> onDamage = new();
-        public Subject<EntityModel> onInteractive = new();
+
+        public UnityEvent<EntityModel> onFowardAction = new();
+
+        public UnityEvent<EntityModel, int> onAttack = new();
+        public UnityEvent<EntityModel> onAttackSucceed = new();
+        public UnityEvent<ActorModel, int, bool> onDamage = new();
 
         /// <summary>
         /// 레벨
@@ -29,6 +31,18 @@ namespace Minefarm.Entity
         /// 경험치
         /// </summary>
         public int exp;
+
+        /// <summary>
+        /// 최대 체력
+        /// </summary>
+        public int maxHp;
+        public float maxHpPercent = 1.0f;
+        public int calculatedMaxHp { get => Mathf.RoundToInt(maxHp * maxHpPercent); }
+
+        /// <summary>
+        /// 체력
+        /// </summary>
+        public int hp;
 
         /// <summary>
         /// 공격력
@@ -42,6 +56,14 @@ namespace Minefarm.Entity
         public float attackSpeed = 1.0f;
         public float attackSpeedPercent = 1.0f; 
         public float calculatedAttackSpeed { get => attackSpeed * attackSpeedPercent; }
+
+        /// <summary>
+        /// 공격 사거리
+        /// </summary>
+        public float attackRange = 1f;
+        public float attackRangePercent = 1.0f;
+        public float calculatedAttackRange { get => attackRange * attackRangePercent; }
+
         /// <summary>
         /// 방어력
         /// </summary>
@@ -80,81 +102,61 @@ namespace Minefarm.Entity
         /// </summary>
         public float jumpPower = 1.0f;
 
-        /// <summary>
-        /// 장착한 장비들
-        /// </summary>
-        public EquipmentFrame equips;
+        public IFowardActionable fowardActionable;
 
-        /// <summary>
-        /// 현재 적용되어 있는 효과
-        /// </summary>
-        public PriorityQueue<Buff> buffs = new PriorityQueue<Buff>();
+        public IAttackable attackable;
+        public IBreakable breakable;
 
-        public Transform body;
-
-        private ActorController _controller;
-        public ActorController controller { get => _controller ??= GetComponent<ActorController>(); }
+        public IMoveable moveable;
+        public IDamageable damageable;
+        public IJumpable jumpable;
 
         public bool isGround;
 
-        public virtual void Awake()
-        {
-            equips = new EquipmentFrame(this);
+        public ActorController actorController { 
+            get => (ActorController) base.entityController;
         }
 
-        public virtual void Update()
+        public void Awake()
         {
-            ProcessEquipment();
+            jumpable = new DefaultJumpable(this);
+            moveable = new DefaultMoveable(this);
+
+            attackable = new ActorAttackable(this);
+            damageable = new ActorDamageable(this);
         }
 
-        public void OnCollisionEnter(Collision collision)
+        public bool InAttackRange(ActorModel target)
         {
-            if (collision.gameObject.layer == LayerMask.NameToLayer("Block"))
-                isGround = true;
-        }
-
-        private void ProcessEquipment()
-        {
-            List<EquipmentModel> models = equips.ToList();
-            foreach (var model in models) model?.Update();
-        }
-
-        public void AddBuff(Buff buff)
-        {
-            buff.startTime = GameManager.time;
-            buff.owner = this;
-            buff.OnEnable();
-            buffs.Add(buff);
-        }
-
-        public void ClearBuff()
-        {
-            foreach (Buff buff in buffs) buff.OnDisable();
-            buffs.Clear();
-        }
-
-        public bool InAttackRange(ActorModel actor)
-        {
-            Vector3 diff = actor.transform.position - transform.position;
-            float weaponRange = equips.weapon.range;
-            return diff.sqrMagnitude <= weaponRange * weaponRange;
+            Vector3 diff = target.transform.position - transform.position;
+            return diff.sqrMagnitude <= attackRange * attackRange;
         }
 
         public int FormulateAttack(float percent = 1.0f)
         {
             int ret = calculatedAttack;
             ret = Mathf.RoundToInt(ret * percent);
-            if (Random.Range(0f, 1f) < criticalChance)
-                ret = Mathf.RoundToInt(criticalDamage * ret);
             return ret;
         }
 
-        public int FormulateDamage(ActorModel actor, int damage)
+        public int FormulateDamage(ActorModel actor, int damage, out bool isCritical)
         {
+            isCritical = false;
+            if (Random.Range(0f, 1f) < actor.criticalChance)
+            {
+                damage = Mathf.RoundToInt(actor.criticalDamage * damage);
+                isCritical = true;
+            }
+
             float negation = 1.0f - actor.defenseRatio * (1 - durabilityNegation);
             damage = Mathf.RoundToInt(damage * negation);
             damage = Mathf.Max(0, damage - calculatedDefense);
-            return damage;
+            return Mathf.Max(1, damage);
+        }
+        public int FormulateDamage(ActorModel actor, int damage)
+        {
+            bool temp = false;
+            return FormulateDamage(actor, damage, out temp);
         }
     }
 }

@@ -6,13 +6,18 @@ using UniRx;
 using UniRx.Triggers;
 using TMPro;
 using Minefarm.Map.Block;
+using Minefarm.Entity.Actor;
 
 namespace Minefarm.Entity
 {
+    /// <summary>
+    /// Map에 존재할 수 있는 객체
+    ///  - 이동정보, 생성, 파괴
+    /// </summary>
     public class EntityModel : MonoBehaviour
     {
         public UnityEvent onSpawn = new UnityEvent();
-        public UnityEvent onDeath = new UnityEvent();
+        public UnityEvent onKill = new UnityEvent();
 
         /// <summary>
         /// 엔티티 종류
@@ -27,16 +32,6 @@ namespace Minefarm.Entity
         /// 존재 여부
         /// </summary>
         public bool isLive;
-
-        /// <summary>
-        /// 최대 체력
-        /// </summary>
-        public int maxHp;
-        public float maxHpPercent = 1.0f;
-        /// <summary>
-        /// 체력
-        /// </summary>
-        public int hp;
 
         public Vector3Int mapPos
         {
@@ -54,6 +49,11 @@ namespace Minefarm.Entity
             }
         }
 
-        public int GetMaxHp() => Mathf.RoundToInt(maxHpPercent * maxHp);
+        public Transform body;
+
+        private EntityController _entityController;
+        public EntityController entityController { 
+            get => _entityController ??= GetComponent<EntityController>();
+        }
     }
 }
