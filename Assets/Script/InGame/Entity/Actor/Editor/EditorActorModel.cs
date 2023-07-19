@@ -1,3 +1,4 @@
+using Minefarm.Entity.Bullet;
 using Minefarm.Entity.EditorInsepctor;
 using UnityEditor;
 
@@ -7,7 +8,7 @@ namespace Minefarm.Entity.Actor.EditorInspector
     public class EditorActorModel : EditorEntityModel
     {
         public bool isActorFold;
-        protected ActorModel script { get => (ActorModel)base.script; }
+        protected ActorModel script { get => base.script as ActorModel; }
 
         public override void OnInspectorGUI()
         {
@@ -65,6 +66,15 @@ namespace Minefarm.Entity.Actor.EditorInspector
                         script.attackRangePercent =
                             EditorGUILayout.FloatField("Attack Range Percent", script.attackRangePercent);
                         EditorGUILayout.FloatField("Calculated Attack Range", script.calculatedAttackRange);
+                    }
+                    EditorGUILayout.EndVertical();
+
+                    EditorGUILayout.BeginVertical("Box");
+                    {
+                        script.bulletModel =
+                            (BulletModelType)EditorGUILayout.EnumPopup("Bullet Model", script.bulletModel);
+                        script.bulletSpeed =
+                            EditorGUILayout.FloatField("Bullet Speed", script.bulletSpeed);
                     }
                     EditorGUILayout.EndVertical();
 

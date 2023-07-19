@@ -1,23 +1,25 @@
 using Minefarm.Entity;
+using Minefarm.Entity.Actor;
+using Minefarm.Entity.Actor.Damageable;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Minefarm.Map.Block
 {
     [ExecuteInEditMode]
-    public class BlockModel : EntityModel
+    public class BlockModel : ActorModel
     {
         private MapModel _mapModel;
-        public MapModel mapModel {
-            get
-            {
-                if (transform.parent == null) return null;
-                return _mapModel ??= transform.parent.GetComponent<MapModel>();
-            }
-        }  
+        public MapModel mapModel { get => _mapModel ??= GetComponentInParent<MapModel>(); }
 
         public Vector3Int pos;
         public BlockID blockID;
+
+        public void Awake()
+        {
+            base.Awake();
+            damageable = new BlockDamageable(this);
+        }
 
         private void OnDestroy()
         {

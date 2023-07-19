@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class BulletDB : MonoBehaviour
+namespace Minefarm.Entity.Bullet
 {
-    // Start is called before the first frame update
-    void Start()
+    public enum BulletModelType
     {
-        
+        Melee
     }
-
-    // Update is called once per frame
-    void Update()
+    public static class BulletDB 
     {
-        
+        const string PATH_DB = "Entity/Bullet";
+
+        private static Dictionary<BulletModelType, GameObject> db = new();
+        public static GameObject LoadBullet(BulletModelType modelType)
+        {
+            if (!db.ContainsKey(modelType))
+                db.Add(modelType, Resources.Load($"{PATH_DB}/{modelType}") as GameObject);
+            return db[modelType];
+        }
     }
 }

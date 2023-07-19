@@ -20,7 +20,7 @@ namespace Minefarm.Entity.Actor
                 animator.SetFloat("Move Y", dir.z);    
             });
 
-            actorModel.onAttack.AddListener((target, damage) =>
+            actorModel.onShoot.AddListener(direction =>
             {
                 animator.Play("Attack");
             });

@@ -8,6 +8,8 @@ using Minefarm.Entity.Actor.Attackable;
 using Minefarm.Map.Block;
 using Minefarm.Entity.Actor.FowardActionable;
 using Minefarm.Entity.Actor.Damageable;
+using Minefarm.Entity.Bullet;
+using Minefarm.Entity.Actor.Shootable;
 
 namespace Minefarm.Entity.Actor
 {
@@ -18,9 +20,10 @@ namespace Minefarm.Entity.Actor
         public UnityEvent onJump = new();
 
         public UnityEvent<EntityModel> onFowardAction = new();
+        public UnityEvent<Vector3> onShoot = new();
 
-        public UnityEvent<EntityModel, int> onAttack = new();
-        public UnityEvent<EntityModel> onAttackSucceed = new();
+        public UnityEvent<ActorModel, int> onAttack = new();
+        public UnityEvent<ActorModel> onKillEntity = new();
         public UnityEvent<ActorModel, int, bool> onDamage = new();
 
         /// <summary>
@@ -65,6 +68,16 @@ namespace Minefarm.Entity.Actor
         public float calculatedAttackRange { get => attackRange * attackRangePercent; }
 
         /// <summary>
+        /// 공격 시 발사되는 탄막의 속도
+        /// 근접 무기인 경우 최댓값으로 설정된다.
+        /// </summary>
+        public float bulletSpeed = 1f;
+        /// <summary>
+        /// 공격 시 발사되는 탄막의 종류
+        /// </summary>
+        public BulletModelType bulletModel = BulletModelType.Melee;
+
+        /// <summary>
         /// 방어력
         /// </summary>
         public int defense;
@@ -104,8 +117,8 @@ namespace Minefarm.Entity.Actor
 
         public IFowardActionable fowardActionable;
 
+        public IShootable shootable;
         public IAttackable attackable;
-        public IBreakable breakable;
 
         public IMoveable moveable;
         public IDamageable damageable;
@@ -116,12 +129,14 @@ namespace Minefarm.Entity.Actor
         public ActorController actorController { 
             get => (ActorController) base.entityController;
         }
+        public Vector3 centerPosition { get => transform.position + Vector3.up * 0.5f; }
 
         public void Awake()
         {
-            jumpable = new DefaultJumpable(this);
-            moveable = new DefaultMoveable(this);
+            jumpable = new ActorJumpable(this);
+            moveable = new ActorMoveable(this);
 
+            shootable = new ActorShootable(this);
             attackable = new ActorAttackable(this);
             damageable = new ActorDamageable(this);
         }

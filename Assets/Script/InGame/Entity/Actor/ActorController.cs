@@ -32,7 +32,6 @@ namespace Minefarm.Entity.Actor
         public bool FowardAction()
         {
             EntityModel fowardEntity = GetFowardEntity();
-            if (fowardEntity == null) return false;
             if (actorModel.fowardActionable.Action(fowardEntity))
             {
                 actorModel.onFowardAction.Invoke(fowardEntity);
@@ -45,6 +44,12 @@ namespace Minefarm.Entity.Actor
         {
             if (actorModel.moveable.Move(direction))
                 actorModel.onMove.Invoke(direction);
+        }
+
+        public void Shoot(Vector3 direction)
+        {
+            if (actorModel.shootable.Shoot(direction))
+                actorModel.onShoot.Invoke(direction);
         }
 
         public void Attack(ActorModel target, int damage)

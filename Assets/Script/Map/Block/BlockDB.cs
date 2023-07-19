@@ -5,7 +5,7 @@ namespace Minefarm.Map.Block
 {
     public static class BlockDB
     {
-        private const string BLOCK_PATH = "Model/Block";
+        private const string BLOCK_PATH = "Entity/Block";
 
         private static Dictionary<BlockID, GameObject> db_block= new();
         private static Dictionary<BlockID, Material> db_material= new();
@@ -35,18 +35,9 @@ namespace Minefarm.Map.Block
             return db_block[id];
         }
 
-        public static Material LoadMaterial(BlockID id)
+        public static bool IsBreak(BlockID id)
         {
-            if (!db_material.ContainsKey(id))
-                db_material.Add(id, Resources.Load(GetMaterialPath(id)) as Material);
-            return db_material[id];
-        }
-        public static Material LoadPixelizedMaterial(BlockID id)
-        {
-            if (!db_pixelizedMaterial.ContainsKey(id))
-                db_pixelizedMaterial.Add(id, 
-                    Resources.Load(GetPixelizedMaterialPath(id)) as Material);
-            return db_pixelizedMaterial[id];
+            return true;
         }
     }
 }

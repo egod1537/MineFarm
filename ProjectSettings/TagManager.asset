@@ -14,9 +14,9 @@ TagManager:
   - Block
   - Map
   - Bullet
-  - 
-  - 
-  - 
+  - Actor
+  - Entity
+  - Overlay
   - 
   - 
   - 

@@ -1,6 +1,7 @@
 using Minefarm.Map.Block;
 using UniRx;
 using UniRx.Triggers;
+using Unity.VisualScripting;
 using UnityEngine;
 namespace Minefarm.Entity.Actor.Player
 {
@@ -28,15 +29,15 @@ namespace Minefarm.Entity.Actor.Player
 
             this.UpdateAsObservable()
                 .Where(_ => Input.GetMouseButton(0))
-                .Subscribe(_ =>
-                {
-                    if (!FowardAction()) playerModel.onSwing.Invoke();
-                });
+                .Subscribe(_ => FowardAction());
+
+            playerModel.onDig.AddListener((block, damage) => Debug.Log($"Break : {block.blockID} {damage}"));
         }
 
-        public void Break(BlockModel block, int damage)
+        public void Dig(BlockModel block, int damage)
         {
-            
+            if (playerModel.digable.Dig(block, damage))
+                playerModel.onDig.Invoke(block, damage);
         }
     }
 }

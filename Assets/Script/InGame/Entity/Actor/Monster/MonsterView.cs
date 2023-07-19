@@ -2,6 +2,7 @@ using Minefarm.Effect;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UniRx.Triggers;
 using UnityEngine;
 namespace Minefarm.Entity.Actor.Monster
 {
@@ -37,7 +38,9 @@ namespace Minefarm.Entity.Actor.Monster
                     damage, 
                     (isCritical ? COLOR_CRITICAL_DAMAGE : COLOR_NORMAL_DAMAGE));
 
-                actorModel.body.transform.LookAt(target.transform);
+                Vector3 dir = target.transform.position - transform.position;
+                dir.y = 0;
+                actorModel.body.transform.rotation = Quaternion.LookRotation(dir);
             });
         }
     }

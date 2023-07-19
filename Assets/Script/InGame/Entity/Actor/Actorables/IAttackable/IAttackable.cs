@@ -6,5 +6,6 @@ namespace Minefarm.Entity.Actor.Interface
     {
         public bool Attack(ActorModel target, int damage);
         public bool CanAttack(ActorModel target);
+        public bool CanTarget(ActorModel target);
     }
 }

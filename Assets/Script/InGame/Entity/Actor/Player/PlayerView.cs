@@ -32,11 +32,6 @@ namespace Minefarm.Entity.Actor.Player
         {
             base.Awake();
 
-            playerModel.onSwing.AddListener(() =>
-            {
-                animator.Play("Swing");
-            });
-
             playerModel.onDamage.AddListener((target, damage, isCritical) =>
             {
                 EffectDamage effect = Effector.CreateDamage(transform.position, damage);
