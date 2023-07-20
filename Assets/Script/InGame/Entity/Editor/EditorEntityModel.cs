@@ -14,6 +14,8 @@ namespace Minefarm.Entity.EditorInsepctor
         }
         public override void OnInspectorGUI()
         {
+            serializedObject.Update();
+
             EditorGUILayout.BeginVertical("HelpBox");
             {
                 EditorGUI.indentLevel++;
@@ -34,6 +36,8 @@ namespace Minefarm.Entity.EditorInsepctor
                 EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
+
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

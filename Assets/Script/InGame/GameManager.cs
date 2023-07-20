@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UniRx.Triggers;
 using UnityEngine;
 using UniRx;
 using Minefarm.Map;
+using Minefarm.Entity.Actor.Player;
 
 namespace Minefarm.InGame
 {
@@ -12,6 +11,7 @@ namespace Minefarm.InGame
         public static float time;
 
         public MapModel map;
+        public PlayerModel player;
 
         public void Awake()
         {

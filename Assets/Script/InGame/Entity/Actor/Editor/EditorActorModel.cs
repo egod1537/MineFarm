@@ -12,6 +12,8 @@ namespace Minefarm.Entity.Actor.EditorInspector
 
         public override void OnInspectorGUI()
         {
+            serializedObject.Update();
+
             base.OnInspectorGUI();
             EditorGUILayout.BeginVertical("HelpBox");
             {
@@ -73,8 +75,6 @@ namespace Minefarm.Entity.Actor.EditorInspector
                     {
                         script.bulletModel =
                             (BulletModelType)EditorGUILayout.EnumPopup("Bullet Model", script.bulletModel);
-                        script.bulletSpeed =
-                            EditorGUILayout.FloatField("Bullet Speed", script.bulletSpeed);
                     }
                     EditorGUILayout.EndVertical();
 
@@ -122,6 +122,8 @@ namespace Minefarm.Entity.Actor.EditorInspector
                 EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
+
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

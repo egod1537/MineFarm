@@ -1,10 +1,11 @@
 using Minefarm.Effect;
-using Minefarm.Item.Equipment;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Minefarm.Entity.Item.Equipment;
+using Minefarm.Effect.InGame;
 
 namespace Minefarm.Entity.Actor.Player
 {
@@ -28,9 +29,14 @@ namespace Minefarm.Entity.Actor.Player
         public class EquipmentTransform : SerializableDictionary<EquipmentType, Transform> { }
         public EquipmentTransform equipmentTransform = new EquipmentTransform();
 
+        private EffectSkinnedMeshAfterImage[] effectAfterImage;
+
         public void Awake()
         {
             base.Awake();
+
+            effectAfterImage = GetComponentsInChildren<EffectSkinnedMeshAfterImage>();
+            foreach (var vfx in effectAfterImage) vfx.enabled = false;
 
             playerModel.onDamage.AddListener((target, damage, isCritical) =>
             {
@@ -38,6 +44,15 @@ namespace Minefarm.Entity.Actor.Player
 
                 TextMeshPro tmp = effect.body.GetComponent<TextMeshPro>();
                 tmp.colorGradient = COLOR_BAD_DAMAGE;
+            });
+
+            playerModel.onDash.AddListener(() =>
+            {
+                foreach (var vfx in effectAfterImage) vfx.enabled = true;
+            });
+            playerModel.onDashEnd.AddListener(() =>
+            {
+                foreach (var vfx in effectAfterImage) vfx.enabled = false;
             });
         }
     }

@@ -24,7 +24,6 @@ namespace Minefarm.Entity.Bullet
             BulletModel bullet = go.GetComponent<BulletModel>();
             bullet.owner = owner;
             bullet.direction = direction;
-            bullet.speed = speed;
             bullet.distance = range;
             bullet.damage = damage;
 

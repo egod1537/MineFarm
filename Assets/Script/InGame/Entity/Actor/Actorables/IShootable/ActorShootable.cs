@@ -29,8 +29,7 @@ namespace Minefarm.Entity.Actor.Shootable
                 actor.centerPosition,
                 actor.body.transform.forward,
                 actor.calculatedAttackRange,
-                actor.calculatedAttack,
-                actor.bulletSpeed);
+                actor.calculatedAttack);
             shootDelay = 1.0f / actor.calculatedAttackSpeed;
             return true;
         }

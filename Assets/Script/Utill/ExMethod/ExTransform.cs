@@ -21,4 +21,11 @@ public static class ExTransform
         for (int i = childCount - 1; i >= 0; i--)
             Object.DestroyImmediate(transform.GetChild(i).gameObject);
     }
+
+    public static void SetActiveChild(this Transform transform, bool isActive)
+    {
+        int childCount = transform.childCount;
+        for (int i = 0; i < childCount; i++)
+            transform.GetChild(i).gameObject.SetActive(isActive);
+    }
 }

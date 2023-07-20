@@ -9,9 +9,10 @@ namespace Minefarm.Entity.Bullet.EditorInspector
     {
         public bool isBulletFold;
         protected BulletModel bulletModel { get => base.script as BulletModel; }
-
         public override void OnInspectorGUI()
         {
+            serializedObject.Update();
+
             base.OnInspectorGUI();
             EditorGUILayout.BeginVertical("HelpBox");
             {
@@ -35,6 +36,10 @@ namespace Minefarm.Entity.Bullet.EditorInspector
                 EditorGUI.indentLevel--;    
             }
             EditorGUILayout.EndVertical();
+
+            serializedObject.ApplyModifiedProperties();
+
+            PrefabUtility.RecordPrefabInstancePropertyModifications(bulletModel);
         }
     }
 }

@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using Minefarm.Item.Equipment;
 using System;
+using Minefarm.Entity.Item.Equipment;
 
 namespace Minefarm.Entity.Actor.Player.EditorInspector
 {

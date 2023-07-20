@@ -68,11 +68,6 @@ namespace Minefarm.Entity.Actor
         public float calculatedAttackRange { get => attackRange * attackRangePercent; }
 
         /// <summary>
-        /// 공격 시 발사되는 탄막의 속도
-        /// 근접 무기인 경우 최댓값으로 설정된다.
-        /// </summary>
-        public float bulletSpeed = 1f;
-        /// <summary>
         /// 공격 시 발사되는 탄막의 종류
         /// </summary>
         public BulletModelType bulletModel = BulletModelType.Melee;

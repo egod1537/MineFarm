@@ -7,6 +7,7 @@ using UniRx.Triggers;
 using TMPro;
 using Minefarm.Map.Block;
 using Minefarm.Entity.Actor;
+using Minefarm.Entity.Actor.Block;
 
 namespace Minefarm.Entity
 {

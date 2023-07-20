@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UniRx.Triggers;
 using UnityEngine;
 using UniRx;
+using Minefarm.Entity.Actor.Block;
+
 namespace Minefarm.Entity.Actor.Breakable
 {
     public class PlayerDigable : Actorable, IDigable

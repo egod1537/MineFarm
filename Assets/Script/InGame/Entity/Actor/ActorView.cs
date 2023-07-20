@@ -33,7 +33,8 @@ namespace Minefarm.Entity.Actor
 
         private void Update()
         {
-            animator.SetBool("IsGround", actorModel.isGround);
+            if(animator != null)
+                animator.SetBool("IsGround", actorModel.isGround);
         }
     }
 }
