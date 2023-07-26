@@ -30,9 +30,13 @@ namespace Minefarm.Entity.Actor.Monster.UI
                 .Where(_ => timeViewUI <= 0f)
                 .Subscribe(_ => transform.SetActiveChild(false));
         }
+        private void Start()
+        {
+            transform.SetActiveChild(false);
+        }
         public void UpdateBar()
         {
-            hpBar.DOScaleX(1.0f * model.hp / model.calculatedMaxHp, 0.25f);
+            hpBar.DOScaleX(Mathf.Max(0f, 1.0f * model.hp / model.calculatedMaxHp), 0.25f);
             spriteRenderer.DOColor(Color.gray, 0.125f)
                 .OnComplete(() => spriteRenderer.DOColor(Color.white, 0.125f));
 

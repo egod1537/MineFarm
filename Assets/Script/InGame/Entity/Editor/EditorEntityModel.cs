@@ -38,6 +38,7 @@ namespace Minefarm.Entity.EditorInsepctor
             EditorGUILayout.EndVertical();
 
             serializedObject.ApplyModifiedProperties();
+            PrefabUtility.RecordPrefabInstancePropertyModifications(this.script);
         }
     }
 }

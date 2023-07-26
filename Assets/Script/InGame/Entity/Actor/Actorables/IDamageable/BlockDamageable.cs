@@ -14,6 +14,7 @@ namespace Minefarm.Entity.Actor.Damageable
             out int retDamage, out bool isCritical)
         {
             isCritical = false;
+
             retDamage = damage;
             actor.hp -= retDamage;
 

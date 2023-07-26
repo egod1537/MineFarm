@@ -119,7 +119,7 @@ namespace Minefarm.Map
             if (IsBlock(pos) || !InArea(pos)) return null;
 
             BlockModel block = Instantiate(
-                BlockDB.Load(id)).GetComponent<BlockModel>();
+                BlockDB.LoadBlock(id)).GetComponent<BlockModel>();
             AddBlock(pos, block);
             return block;
         }

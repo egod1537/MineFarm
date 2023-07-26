@@ -21,7 +21,7 @@ namespace Minefarm.Map.Window
 
             foreach(BlockID id in Enum.GetValues(typeof(BlockID)))
             {
-                blocks.Add(id, BlockDB.Load(id));
+                blocks.Add(id, BlockDB.LoadBlock(id));
 
                 Texture texture = 
                     ResizeTexture(AssetPreview.GetAssetPreview(blocks[id]), 

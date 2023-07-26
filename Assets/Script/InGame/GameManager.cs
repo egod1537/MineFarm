@@ -11,7 +11,9 @@ namespace Minefarm.InGame
         public static float time;
 
         public MapModel map;
-        public PlayerModel player;
+
+        private PlayerModel _playerModel;
+        public PlayerModel player { get => _playerModel ??= FindAnyObjectByType<PlayerModel>(); }
 
         public void Awake()
         {

@@ -8,7 +8,7 @@ namespace Minefarm.Entity.Actor.EditorInspector
     public class EditorActorModel : EditorEntityModel
     {
         public bool isActorFold;
-        protected ActorModel script { get => base.script as ActorModel; }
+        protected new ActorModel script { get => base.script as ActorModel; }
 
         public override void OnInspectorGUI()
         {
@@ -25,6 +25,7 @@ namespace Minefarm.Entity.Actor.EditorInspector
                     {
                         script.level = EditorGUILayout.IntField("Level", script.level);
                         script.exp = EditorGUILayout.IntField("Exp", script.exp);
+                        EditorGUILayout.IntField("Next Level Exp", script.GetNextLevelExp());
                         script.isGround = EditorGUILayout.Toggle("Is Ground", script.isGround);
                     }
                     EditorGUILayout.EndVertical();
@@ -124,6 +125,7 @@ namespace Minefarm.Entity.Actor.EditorInspector
             EditorGUILayout.EndVertical();
 
             serializedObject.ApplyModifiedProperties();
+            PrefabUtility.RecordPrefabInstancePropertyModifications(script);
         }
     }
 }

@@ -46,6 +46,11 @@ namespace Minefarm.Entity.Actor.Player
                 tmp.colorGradient = COLOR_BAD_DAMAGE;
             });
 
+            playerModel.onDig.AddListener((block, damage) =>
+            {
+                animator.Play("Dig");
+            });
+
             playerModel.onDash.AddListener(() =>
             {
                 foreach (var vfx in effectAfterImage) vfx.enabled = true;

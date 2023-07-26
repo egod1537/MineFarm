@@ -80,9 +80,18 @@ MonoBehaviour:
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  level: 0
-  exp: 0
-  maxHp: 0
+  onLevel:
+    m_PersistentCalls:
+      m_Calls: []
+  onLevelUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onExp:
+    m_PersistentCalls:
+      m_Calls: []
+  _level: 0
+  _exp: 0
+  maxHp: 100
   maxHpPercent: 1
   hp: 0
   attack: 0
@@ -91,7 +100,6 @@ MonoBehaviour:
   attackSpeedPercent: 1
   attackRange: 1
   attackRangePercent: 1
-  bulletSpeed: 1
   bulletModel: 0
   defense: 0
   defensePercent: 1

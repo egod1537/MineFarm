@@ -52,8 +52,6 @@ namespace Minefarm.Entity.Actor.Player
                     }
                     delayDash = playerModel.dashRecycleDelay;
                 });
-
-            playerModel.onDig.AddListener((block, damage) => Debug.Log($"Break : {block.blockID} {damage}"));
         }
 
         public void Dig(BlockModel block, int damage)

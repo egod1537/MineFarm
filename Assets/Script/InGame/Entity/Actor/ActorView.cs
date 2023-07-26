@@ -29,6 +29,11 @@ namespace Minefarm.Entity.Actor
             {
                 animator.Play("Damage");
             });
+
+            actorModel.onKill.AddListener(() =>
+            {
+                animator.Play("Dead");
+            });
         }
 
         private void Update()

@@ -1,3 +1,4 @@
+using Minefarm.Effect;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
@@ -31,6 +32,9 @@ namespace Minefarm.Entity.Actor.Block
 
             this.UpdateAsObservable()
                 .Subscribe(_ => delayInvisible -= Time.deltaTime);
+
+            blockModel.onDamage.AddListener((other, damage, isCritical)
+                => Effector.CrackBlock(blockModel));
         }
 
         public void SetInvisibleLevel(int level)

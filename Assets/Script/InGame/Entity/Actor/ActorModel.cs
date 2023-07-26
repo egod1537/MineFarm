@@ -26,14 +26,40 @@ namespace Minefarm.Entity.Actor
         public UnityEvent<ActorModel> onKillEntity = new();
         public UnityEvent<ActorModel, int, bool> onDamage = new();
 
+        public UnityEvent<int> onLevel = new();
+        public UnityEvent<int> onLevelUp = new();
+        public UnityEvent<int> onExp = new();
+
+        public UnityEvent<int> onHp = new();
+
         /// <summary>
         /// 레벨
         /// </summary>
-        public int level;
+        [SerializeField]
+        private int _level;
+        public int level
+        {
+            get => _level;
+            set {
+                if (_level < value) onLevelUp.Invoke(value);
+                if(_level != value) onLevel.Invoke(_level);
+                _level = value;
+            }
+        }
         /// <summary>
         /// 경험치
         /// </summary>
-        public int exp;
+        [SerializeField]
+        private int _exp;
+        public int exp
+        {
+            get => _exp;
+            set
+            {
+                if(_exp != value) onExp.Invoke(_exp);
+                _exp = value;
+            }
+        }
 
         /// <summary>
         /// 최대 체력
@@ -45,7 +71,17 @@ namespace Minefarm.Entity.Actor
         /// <summary>
         /// 체력
         /// </summary>
-        public int hp;
+        [SerializeField]
+        public int _hp;
+        public int hp
+        {
+            get => _hp;
+            set
+            {
+                if(_hp != value) onHp.Invoke(_hp);
+                _hp = value;       
+            }
+        }
 
         /// <summary>
         /// 공격력
@@ -168,5 +204,7 @@ namespace Minefarm.Entity.Actor
             bool temp = false;
             return FormulateDamage(actor, damage, out temp);
         }
+
+        public int GetNextLevelExp() { return 30000000; }
     }
 }

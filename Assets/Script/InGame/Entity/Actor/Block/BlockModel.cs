@@ -13,6 +13,7 @@ namespace Minefarm.Entity.Actor.Block
     public class BlockModel : ActorModel
     {
         public UnityEvent onInvisible = new();
+        public UnityEvent onRecovery = new();
 
         private MapModel _mapModel;
         public MapModel mapModel { get => _mapModel ??= GetComponentInParent<MapModel>(); }

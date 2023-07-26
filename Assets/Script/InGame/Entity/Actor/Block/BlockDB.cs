@@ -5,7 +5,8 @@ namespace Minefarm.Entity.Actor.Block
 {
     public static class BlockDB
     {
-        private const string BLOCK_PATH = "Entity/Block";
+        private const string PATH_BLOCK = "Entity/Block";
+
 
         private static Dictionary<BlockID, GameObject> db_block = new();
         private static Dictionary<int, Material> db_invisible_material = new();
@@ -20,10 +21,10 @@ namespace Minefarm.Entity.Actor.Block
         }
 
         private static string GetBlockPath(BlockID id)
-            => $"{BLOCK_PATH}/{id}";
+            => $"{PATH_BLOCK}/{id}";
         private static string GetMaterialPath()
-            => $"{BLOCK_PATH}/Material";
-        public static GameObject Load(BlockID id)
+            => $"{PATH_BLOCK}/Material";
+        public static GameObject LoadBlock(BlockID id)
         {
             if (!db_block.ContainsKey(id))
                 db_block.Add(id, Resources.Load(GetBlockPath(id)) as GameObject);

@@ -21,6 +21,10 @@ namespace Minefarm.Entity.Actor
                 .Select(collider => collider.gameObject)
                 .Where(go => go.layer == LayerMask.NameToLayer("Block"))
                 .Subscribe(_ => actorModel.isGround = true);
+
+            this.UpdateAsObservable()
+                .Where(_ => actorModel.isLive && actorModel.hp <= 0f)
+                .Subscribe(_ => Kill());
         }
 
         public override void Spawn()

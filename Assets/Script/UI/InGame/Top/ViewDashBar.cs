@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-namespace Minefarm.UI
+namespace Minefarm.UI.InGame
 {
     public class ViewDashBar : MonoBehaviour
     {

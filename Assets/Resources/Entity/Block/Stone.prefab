@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1179044746516597882}
   - component: {fileID: 2345681146006121125}
   - component: {fileID: 2814895490592620224}
-  - component: {fileID: 827282206841219602}
+  - component: {fileID: 5901128857339962486}
   - component: {fileID: -1536375585483158763}
   - component: {fileID: 1272236211058232410}
   m_Layer: 6
@@ -80,18 +80,29 @@ MonoBehaviour:
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  level: 0
-  exp: 0
-  maxHp: 0
+  onLevel:
+    m_PersistentCalls:
+      m_Calls: []
+  onLevelUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onExp:
+    m_PersistentCalls:
+      m_Calls: []
+  onHp:
+    m_PersistentCalls:
+      m_Calls: []
+  _level: 0
+  _exp: 0
+  maxHp: 100
   maxHpPercent: 1
-  hp: 0
+  _hp: 0
   attack: 0
   attackPercent: 1
   attackSpeed: 1
   attackSpeedPercent: 1
   attackRange: 1
   attackRangePercent: 1
-  bulletSpeed: 1
   bulletModel: 0
   defense: 0
   defensePercent: 1
@@ -104,6 +115,9 @@ MonoBehaviour:
   jumpPower: 1
   isGround: 0
   onInvisible:
+    m_PersistentCalls:
+      m_Calls: []
+  onRecovery:
     m_PersistentCalls:
       m_Calls: []
   pos: {x: 0, y: 0, z: 0}
@@ -121,7 +135,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &827282206841219602
+--- !u!114 &5901128857339962486
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,7 +144,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 483000999110630142}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b10f2efb17b846041aaa67141ab7c17d, type: 3}
+  m_Script: {fileID: 11500000, guid: 302cddcdda04582458075221da707e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &-1536375585483158763

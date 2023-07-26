@@ -1,3 +1,5 @@
+using Minefarm.Entity.Actor.Block;
+using Minefarm.InGame.Effect.Block;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -49,6 +51,22 @@ namespace Minefarm.Effect
                 }
             }
             ins.StartCoroutine(iterator());
+        }
+
+        public static void CrackBlock(BlockModel block)
+        {
+            EffectBlockCrack effect = 
+                block.gameObject.GetComponentInChildren<EffectBlockCrack>();
+            if (effect != null) return;
+
+            GameObject go = Instantiate(EffectDB.LoadBlockCrack());
+            Transform tr = go.transform;
+
+            tr.SetParent(block.transform);
+            tr.position = block.transform.position;
+
+            effect = go.GetComponent<EffectBlockCrack>();
+            effect.SubscribeBlock(block);
         }
     }
 }

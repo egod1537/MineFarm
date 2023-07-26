@@ -33,6 +33,8 @@ namespace Minefarm.Entity.Actor.Monster
                 .Where(_ => IsRoute())
                 .Where(_ => GetDistanceFromTarget() > stopDistance)
                 .Subscribe(_ => ProcessRouting());
+
+            actorModel.onKill.AddListener(() => Destroy(gameObject, 1f));
         }
         public void OnDrawGizmos()
         {
