@@ -3,8 +3,7 @@ namespace Minefarm.Entity.Item.Equipment
     public enum EquipmentType
     {
         None,
-        MainWeapon,
-        SubWeapon,
+        Weapon,
         Helment,
         Chestplate,
         Leggins,

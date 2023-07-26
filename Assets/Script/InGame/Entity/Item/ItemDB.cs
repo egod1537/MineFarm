@@ -17,7 +17,7 @@ namespace Minefarm.Entity.Item
         }
         public static EquipmentType GetEquipmentType(ItemID itemID)
         {
-            return EquipmentType.MainWeapon;
+            return EquipmentType.Weapon;
         }
     }
 }
