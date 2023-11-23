@@ -13,25 +13,13 @@ MonoBehaviour:
   m_Name: Boards
   m_EditorClassIdentifier: 
   _all:
-  - _id: 614333c42b25b61b704d523518e532ce87cd9d94-e2812d28-1f2b-4164-8fe6-1fad3adf8734
-    _name: Inventory
+  - _id: 614333c42b25b61b704d523518e532ce87cd9d94-501bd13a-fd21-4d43-927e-4056adcf961a
+    _name: "\uD560\uC77C"
     _groupIds:
-    - 614333c42b25b61b704d523518e532ce87cd9d94-7220bd52-8fec-48a0-a7fa-4eb42bc2a45f
-    - 614333c42b25b61b704d523518e532ce87cd9d94-947611c8-aecc-4de8-9253-22fb421a0a8c
-    - 614333c42b25b61b704d523518e532ce87cd9d94-43e74770-c59a-45ec-9fe7-1b012cd2163b
-    _scrollPosition: {x: 0, y: 0}
-    _treeWindow_SearchShow: 1
-    treeWindowShowGroupsAnimation:
-      m_Target: 0
-      speed: 2
-      m_Value: 0
-    _treeWindow_ShowGroups: 0
-  - _id: 614333c42b25b61b704d523518e532ce87cd9d94-5cd26c92-442d-4c8f-a360-17ec901eabe6
-    _name: UI
-    _groupIds:
-    - 614333c42b25b61b704d523518e532ce87cd9d94-c7ef0151-878c-4d07-b806-1d6e4f9f9ed0
-    - 614333c42b25b61b704d523518e532ce87cd9d94-4582c398-f329-4ee4-849c-9a07d0814611
-    - 614333c42b25b61b704d523518e532ce87cd9d94-39ba17b9-3a8d-4def-a8ef-d6f8478a6141
+    - 614333c42b25b61b704d523518e532ce87cd9d94-0e9c3ad2-357d-470f-8689-829cb6016e33
+    - 614333c42b25b61b704d523518e532ce87cd9d94-999de7ff-43c0-4c59-b4b8-b8ec27c39cfa
+    - 614333c42b25b61b704d523518e532ce87cd9d94-72d92db2-f507-4742-8cc1-2866509aac51
+    - 614333c42b25b61b704d523518e532ce87cd9d94-8cd5ff62-d3b4-429d-9d98-5acfb67543dc
     _scrollPosition: {x: 0, y: 0}
     _treeWindow_SearchShow: 1
     treeWindowShowGroupsAnimation:

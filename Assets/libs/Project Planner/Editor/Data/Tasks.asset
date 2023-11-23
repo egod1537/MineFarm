@@ -12,4 +12,152 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa7df9d3ee2217d40a0d4e3fe05dcb0a, type: 3}
   m_Name: Tasks
   m_EditorClassIdentifier: 
-  _all: []
+  _all:
+  - _id: 614333c42b25b61b704d523518e532ce87cd9d94-eca9e456-b3af-4b1c-9f12-a7573b8707aa
+    _parentID: 614333c42b25b61b704d523518e532ce87cd9d94-0e9c3ad2-357d-470f-8689-829cb6016e33
+    _lock: 0
+    _done: 0
+    _isParentSubtask: 0
+    _name: Item Action
+    _description: "\uBC84\uB9AC\uAE30, \uC0AC\uC6A9\uD558\uAE30, \uC7A5\uCC29\uD558\uAE30
+      \uB4F1\uB4F1"
+    _showSubtasks: 1
+    _tasksIds: []
+    _hideCompletedChecklistItems: 0
+    _showTags: 0
+    _tagIds: []
+    _showAssets: 0
+    _assets: []
+    _showColors: 0
+    _colorIds: []
+    _screenshot: []
+    _showScreenshots: 0
+    _createdTicks: 638268786689123477
+    _updatedTicks: 638268786984326375
+    _scrollPosition: {x: 0, y: 0}
+    _boardWindow_SearchShow: 1
+    _taskWindow_ShowSubtask: 0
+    _treeWindow_SearchShow: 1
+    treeWindowShowSubtasksAnimation:
+      m_Target: 0
+      speed: 2
+      m_Value: 0
+    _treeWindow_ShowSubtasks: 0
+  - _id: 614333c42b25b61b704d523518e532ce87cd9d94-1453f49c-a4cb-4745-9b31-f43b77af1972
+    _parentID: 614333c42b25b61b704d523518e532ce87cd9d94-8cd5ff62-d3b4-429d-9d98-5acfb67543dc
+    _lock: 0
+    _done: 0
+    _isParentSubtask: 0
+    _name: Item Resource Panel
+    _description: "\uAC01 Item\uC758 Resource\uB97C \uBAA8\uB450 \uD655\uC778\uD560
+      \uC218 \uC788\uB294 ScriptObjectable Panel \uB9CC\uB4E4\uAE30"
+    _showSubtasks: 1
+    _tasksIds: []
+    _hideCompletedChecklistItems: 0
+    _showTags: 0
+    _tagIds: []
+    _showAssets: 0
+    _assets: []
+    _showColors: 0
+    _colorIds: []
+    _screenshot: []
+    _showScreenshots: 0
+    _createdTicks: 638268787091953305
+    _updatedTicks: 638268787388255916
+    _scrollPosition: {x: 0, y: 0}
+    _boardWindow_SearchShow: 1
+    _taskWindow_ShowSubtask: 0
+    _treeWindow_SearchShow: 1
+    treeWindowShowSubtasksAnimation:
+      m_Target: 0
+      speed: 2
+      m_Value: 0
+    _treeWindow_ShowSubtasks: 0
+  - _id: 614333c42b25b61b704d523518e532ce87cd9d94-ab1e6ad1-a2c9-4189-b129-880d2d80bd51
+    _parentID: 614333c42b25b61b704d523518e532ce87cd9d94-0e9c3ad2-357d-470f-8689-829cb6016e33
+    _lock: 0
+    _done: 0
+    _isParentSubtask: 0
+    _name: Equipment system
+    _description: "\uC7A5\uCC29 \uC2DC\uC2A4\uD15C \uAD6C\uCD95"
+    _showSubtasks: 1
+    _tasksIds: []
+    _hideCompletedChecklistItems: 0
+    _showTags: 0
+    _tagIds: []
+    _showAssets: 0
+    _assets: []
+    _showColors: 0
+    _colorIds: []
+    _screenshot: []
+    _showScreenshots: 0
+    _createdTicks: 638268787419092745
+    _updatedTicks: 638268787538719635
+    _scrollPosition: {x: 0, y: 0}
+    _boardWindow_SearchShow: 1
+    _taskWindow_ShowSubtask: 0
+    _treeWindow_SearchShow: 1
+    treeWindowShowSubtasksAnimation:
+      m_Target: 0
+      speed: 2
+      m_Value: 0
+    _treeWindow_ShowSubtasks: 0
+  - _id: 614333c42b25b61b704d523518e532ce87cd9d94-a91c852a-66d3-4756-8980-3a83f47383a4
+    _parentID: 614333c42b25b61b704d523518e532ce87cd9d94-0e9c3ad2-357d-470f-8689-829cb6016e33
+    _lock: 0
+    _done: 0
+    _isParentSubtask: 0
+    _name: Spawner
+    _description: "Entity\uB97C \uC885\uD569\uC801\uC73C\uB85C \uC18C\uD658\uD560
+      \uC218 \uC788\uB294 \uD074\uB798\uC2A4 \uC791\uC131\n"
+    _showSubtasks: 1
+    _tasksIds: []
+    _hideCompletedChecklistItems: 0
+    _showTags: 0
+    _tagIds: []
+    _showAssets: 0
+    _assets: []
+    _showColors: 0
+    _colorIds: []
+    _screenshot: []
+    _showScreenshots: 0
+    _createdTicks: 638268787557419954
+    _updatedTicks: 638268787990521590
+    _scrollPosition: {x: 0, y: 0}
+    _boardWindow_SearchShow: 1
+    _taskWindow_ShowSubtask: 0
+    _treeWindow_SearchShow: 1
+    treeWindowShowSubtasksAnimation:
+      m_Target: 0
+      speed: 2
+      m_Value: 0
+    _treeWindow_ShowSubtasks: 0
+  - _id: 614333c42b25b61b704d523518e532ce87cd9d94-e66f4046-7416-4e6c-a3fb-c38193aaab85
+    _parentID: 614333c42b25b61b704d523518e532ce87cd9d94-0e9c3ad2-357d-470f-8689-829cb6016e33
+    _lock: 0
+    _done: 0
+    _isParentSubtask: 0
+    _name: MapBoundery
+    _description: "\uB9F5 \uBC16\uC73C\uB85C \uBABB \uB098\uAC00\uAC8C "
+    _showSubtasks: 1
+    _tasksIds: []
+    _hideCompletedChecklistItems: 0
+    _showTags: 0
+    _tagIds: []
+    _showAssets: 0
+    _assets: []
+    _showColors: 0
+    _colorIds: []
+    _screenshot: []
+    _showScreenshots: 0
+    _createdTicks: 638268788026131156
+    _updatedTicks: 638268788137499162
+    _scrollPosition: {x: 0, y: 0}
+    _boardWindow_SearchShow: 1
+    _taskWindow_ShowSubtask: 0
+    _treeWindow_SearchShow: 1
+    treeWindowShowSubtasksAnimation:
+      m_Target: 0
+      speed: 2
+      m_Value: 0
+    _treeWindow_ShowSubtasks: 0

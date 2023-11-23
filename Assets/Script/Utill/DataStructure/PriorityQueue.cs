@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
-
+using System.Diagnostics;
+using System.Text;
+//Max Heap
 public class PriorityQueue<T> : List<T> where T : IComparable
 {
     public T Dequeue()
@@ -17,11 +19,8 @@ public class PriorityQueue<T> : List<T> where T : IComparable
             if (r < Count && this[l].CompareTo(this[r]) < 0)
                 l = r;
             if (this[pos].CompareTo(this[l]) < 0)
-            {
                 (this[pos], this[l]) = (this[l], this[pos]);
-                pos = l;
-            }
-            else break;
+            pos = l;
         }
         return ret;
     }

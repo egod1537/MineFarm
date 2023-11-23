@@ -10,4 +10,11 @@ public static class ExColor
         ColorUtility.TryParseHtmlString(hex, out ret);
         return color = ret;
     }
+
+    public static Color SetOpacity(this Color color, float opacity)
+    {
+        Color ret = color;
+        ret.a = opacity;
+        return ret;
+    }
 }

@@ -170,7 +170,7 @@ MonoBehaviour:
   onSpawn:
     m_PersistentCalls:
       m_Calls: []
-  onKill:
+  onDead:
     m_PersistentCalls:
       m_Calls: []
   entityID: 0
@@ -183,10 +183,19 @@ MonoBehaviour:
   onJump:
     m_PersistentCalls:
       m_Calls: []
+  onSetHandleItem:
+    m_PersistentCalls:
+      m_Calls: []
   onFowardAction:
     m_PersistentCalls:
       m_Calls: []
   onShoot:
+    m_PersistentCalls:
+      m_Calls: []
+  onDig:
+    m_PersistentCalls:
+      m_Calls: []
+  onBreak:
     m_PersistentCalls:
       m_Calls: []
   onAttack:
@@ -198,30 +207,47 @@ MonoBehaviour:
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  level: 0
-  exp: 0
-  maxHp: 0
-  maxHpPercent: 1
-  hp: 0
-  attack: 0
-  attackPercent: 1
-  attackSpeed: 1
-  attackSpeedPercent: 1
-  attackRange: 1
-  attackRangePercent: 1
-  bulletSpeed: 1
-  bulletModel: 0
-  defense: 0
-  defensePercent: 1
-  defenseRatio: 0
-  durabilityNegation: 0
-  criticalChance: 0
-  criticalDamage: 2
-  speed: 1
-  speedPercent: 1
-  jumpPower: 1
+  onLevel:
+    m_PersistentCalls:
+      m_Calls: []
+  onLevelUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onExp:
+    m_PersistentCalls:
+      m_Calls: []
+  onHp:
+    m_PersistentCalls:
+      m_Calls: []
+  info:
+    level: 0
+    exp: 0
+    gold: 0
+    hp: 0
+  stats:
+    maxHp: 0
+    maxHpPercent: 1
+    attack: 0
+    attackPercent: 1
+    attackSpeed: 1
+    attackSpeedPercent: 1
+    attackRange: 1
+    attackRangePercent: 1
+    bulletModel: 0
+    defense: 0
+    defensePercent: 1
+    defenseRatio: 0
+    durabilityNegation: 0
+    criticalChance: 0
+    criticalDamage: 2
+    speed: 1
+    speedPercent: 1
+    jumpPower: 1
   isGround: 0
   onInvisible:
+    m_PersistentCalls:
+      m_Calls: []
+  onRecovery:
     m_PersistentCalls:
       m_Calls: []
   pos: {x: 0, y: 0, z: 0}

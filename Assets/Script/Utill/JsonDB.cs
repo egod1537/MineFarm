@@ -12,6 +12,7 @@ public class JsonDB : MonoBehaviour
     {
         using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
         {
+            fs.SetLength(0);
             byte[] dt = Encoding.UTF8.GetBytes(ObjectToJson(data));
             fs.Write(dt, 0, dt.Length);
         }

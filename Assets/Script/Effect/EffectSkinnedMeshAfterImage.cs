@@ -34,6 +34,7 @@ namespace Minefarm.Effect.InGame
                     Transform tr = go.transform;
                     tr.position = transform.position;
                     tr.rotation = transform.rotation;
+                    tr.localScale = transform.localScale;
 
                     MeshFilter mf = go.AddComponent<MeshFilter>();
                     mf.mesh = mesh;
