@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d54ee269fab08aa4cbcbe32caab6f7ea, type: 3}
   m_Name: CustomEffectComponent
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   dx:
     m_OverrideState: 1
     m_Value: 0.2

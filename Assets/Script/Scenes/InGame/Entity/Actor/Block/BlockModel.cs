@@ -26,6 +26,7 @@ namespace Minefarm.Entity.Actor.Block
         public BlockID blockID;
 
         public ReactiveProperty<bool> visible = new();
+        public ReactiveProperty<bool> reveal = new();
 
         public List<Vector3> vertices;
 
@@ -48,18 +49,10 @@ namespace Minefarm.Entity.Actor.Block
         {
             if (!Application.isPlaying) return;
             vertices = body.GetComponent<MeshFilter>().mesh.vertices.ToList();
+            Camera mainCamera = Camera.main;
 
-            StringBuilder sb = new();
-            sb.AppendLine($"Position : {pos}");
             for(int i=0; i < vertices.Count;i++)
-            {
-                Vector3 ret = transform.localToWorldMatrix.MultiplyPoint(vertices[i]);
-                sb.AppendLine($"Transform : {vertices[i]} -> {ret}");
-                vertices[i] = ret;
-            }
-            Debug.Log(sb.ToString());
-            //for (int i = 0; i < vertices.Count; i++)
-            //    vertices[i] = transform.localToWorldMatrix.MultiplyPoint3x4(vertices[i]);
+                vertices[i] = transform.localToWorldMatrix.MultiplyPoint(vertices[i]);
         }
 
         private void OnDestroy()

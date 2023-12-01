@@ -8,6 +8,7 @@ using Minefarm.Map.Block;
 using System;
 using Minefarm.Entity.Actor.Block;
 using Minefarm.Map.Algorithm.SPFA.EditorInspector;
+using Minefarm.Map.Algorithm.Culling.EditorInspector;
 
 namespace Minefarm.Map.EditorInspector
 {
@@ -16,10 +17,12 @@ namespace Minefarm.Map.EditorInspector
     {
         MapModel script;
         EditorMapSPFAPanel spfaPanel;
+        EditorMapCullingPanel cullingPanel;
         private void OnEnable()
         {
             script = (MapModel)target;
             spfaPanel = new(script);
+            cullingPanel = new(script);
         }
 
         bool isMapBlocks;
@@ -40,6 +43,7 @@ namespace Minefarm.Map.EditorInspector
             {
                 script.size = EditorGUILayout.Vector3IntField("Size", script.size);
                 spfaPanel.OnInspectorGUI();
+                cullingPanel.OnInspectorGUI();
                 DrawBlockListPanel();
             }
 

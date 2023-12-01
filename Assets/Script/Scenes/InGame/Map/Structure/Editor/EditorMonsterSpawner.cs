@@ -16,6 +16,7 @@ namespace Minefarm.Entity.Actor.Monster.EditroInspector
 
         public override void OnInspectorGUI()
         {
+            script.spawnEntity = (EntityID)EditorGUILayout.EnumPopup("Spawn Entity", script.spawnEntity);
             script.radius = EditorGUILayout.FloatField("Radius", script.radius);
 
             EditorGUILayout.LabelField("Quantity");

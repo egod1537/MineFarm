@@ -123,7 +123,7 @@ namespace Minefarm.Map.Window
                 ret = InterpolateSelectedPosition(to);
             }
 
-            if (window.IsKey(KeyCode.LeftControl))
+            if (window.IsKey(KeyCode.LeftShift))
             {
                 Vector3Int to = Vector3Int.zero;
                 if (!window.GetMapDirectionFromScreenPoint(mousePosition, out to))

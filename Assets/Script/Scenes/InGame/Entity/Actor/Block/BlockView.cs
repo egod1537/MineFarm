@@ -9,6 +9,7 @@ namespace Minefarm.Entity.Actor.Block
     public class BlockView : ActorView
     {
         const float DELAY_INVISIBLE = 0.125f;
+        const float DELAY_REVEAL = 5.0f*DELAY_INVISIBLE;
 
         protected BlockModel blockModel { get => actorModel as BlockModel; }
         protected Transform blockBody { get => actorModel.body; }
@@ -19,6 +20,7 @@ namespace Minefarm.Entity.Actor.Block
 
         public int invisibleLevel = 0;
         float delayInvisible;
+        float delayReveal;
 
         public void Awake()
         {
@@ -27,16 +29,30 @@ namespace Minefarm.Entity.Actor.Block
             SetInvisibleLevel(invisibleLevel);
 
             this.UpdateAsObservable()
-                .Where(_ => invisibleLevel > 0 && delayInvisible <= 0f)
-                .Subscribe(_ => SetInvisibleLevel(--invisibleLevel));
+                .Subscribe(_ =>
+                {
+                    delayReveal -= Time.deltaTime;
+                    delayInvisible -= Time.deltaTime;
+                });
 
             this.UpdateAsObservable()
-                .Subscribe(_ => delayInvisible -= Time.deltaTime);
+                .Where(_ => invisibleLevel > 0 && delayInvisible <= 0f)
+                .Subscribe(_ => SetInvisibleLevel(--invisibleLevel));
+            this.UpdateAsObservable()
+                .Where(_ => delayReveal <= 0.0f)
+                .Where(_ => blockModel.reveal.Value)
+                .Subscribe(_ => blockModel.reveal.Value = false);
 
             blockModel.onDamage.AddListener((other, damage, isCritical)
                 => Effector.CrackBlock(blockModel));
 
-            blockModel.visible.Subscribe(v => blockModel.body.gameObject.SetActive(v));
+            InitializeAboutVisible();
+        }
+
+        private void InitializeAboutVisible()
+        {
+            blockModel.visible.Subscribe(v => UpdateVisible());
+            blockModel.reveal.Subscribe(v => UpdateVisible());
         }
 
         public void SetInvisibleLevel(int level)
@@ -46,5 +62,14 @@ namespace Minefarm.Entity.Actor.Block
             delayInvisible = DELAY_INVISIBLE;
         }
         public void SetInvisible(bool flag) => SetInvisibleLevel((flag?5:0));
+
+        public void SetReveal()
+        {
+            blockModel.reveal.Value = true;
+            delayReveal = DELAY_REVEAL;
+        }
+        public void UpdateVisible()
+            => blockModel.body.gameObject.SetActive(
+                blockModel.reveal.Value || blockModel.visible.Value);
     }
 }

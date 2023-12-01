@@ -33,6 +33,31 @@ namespace Minefarm.InGame.Util
                 {
                     foreach (var view in views) view.SetInvisible(true);
                 });
+
+            this.UpdateAsObservable()
+                .Select(_ =>
+                {
+                    Vector3 dir = (target.position - transform.position).normalized;
+                    RaycastHit[] hits = Physics.SphereCastAll(
+                        transform.position,
+                        radius,
+                        dir,
+                        float.MaxValue,
+                        1 << LayerMask.NameToLayer("Block"));
+                    List<BlockView> ret = new();
+                    foreach (var hit in hits)
+                    {
+                        BlockView view = hit.transform.GetComponent<BlockView>();
+                        if (view == null) continue;
+                        ret.Add(view);
+                    }
+                    return ret;
+                }).
+                Subscribe(views =>
+                {
+                    foreach (var view in views)
+                        view.SetReveal();
+                });
         }
     }
 }

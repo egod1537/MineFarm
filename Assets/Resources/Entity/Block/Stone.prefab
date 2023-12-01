@@ -103,11 +103,11 @@ MonoBehaviour:
       m_Calls: []
   info:
     level: 0
-    exp: 0
+    exp: 2
     gold: 0
-    hp: 0
+    hp: 70
   stats:
-    maxHp: 100
+    maxHp: 70
     maxHpPercent: 1
     attack: 0
     attackPercent: 1
@@ -134,6 +134,11 @@ MonoBehaviour:
       m_Calls: []
   pos: {x: 0, y: 0, z: 0}
   blockID: 3
+  visible:
+    value: 1
+  reveal:
+    value: 0
+  vertices: []
 --- !u!65 &2814895490592620224
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -238,7 +243,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 229c83d3e10fd5d458c6584e6e7a3c53, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1eb0f988827fcaf489169b6b5281479b, type: 2}
+      objectReference: {fileID: 2100000, guid: fc9cb420a7caaa943a696ce37d0df751, type: 2}
     - target: {fileID: 919132149155446097, guid: 229c83d3e10fd5d458c6584e6e7a3c53, type: 3}
       propertyPath: m_Name
       value: model

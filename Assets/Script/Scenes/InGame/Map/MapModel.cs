@@ -46,7 +46,8 @@ namespace Minefarm.Map
         private BoxCollider _boxCollider;
         public BoxCollider boxCollider { get => GetComponent<BoxCollider>(); }
 
-        private MapCulling culling;
+        [SerializeField]
+        public MapCulling culling;
         public void Awake()
         {
             culling = new(this);
@@ -58,9 +59,15 @@ namespace Minefarm.Map
             pathFinder.model = this;
         }
 
+        public virtual void Update()
+        {
+            culling.Update();
+        }
+
         public void OnDrawGizmosSelected()
         {
             pathFinder.OnDrawGizmosSelected();
+            culling.OnDrawGizmosSelected();
         }
 
         public void Resize(Vector3Int resize)
