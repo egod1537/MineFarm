@@ -4,9 +4,9 @@
 
 ---
 
-![Untitled](Minefarm%20Project%20494804d1c6e54daaaf4c80e49d38e2cb/imgs/1.png)
+![Untitled](imgs/1.png)
 
-![Untitled](Minefarm%20Project%20494804d1c6e54daaaf4c80e49d38e2cb/imgs/2.png)
+![Untitled](imgs/2.png)
 
 ## 📄 Introduction
 
