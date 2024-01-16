@@ -4,46 +4,9 @@ using UnityEngine;
 
 namespace Minefarm.Map.Generator.WaveFunctionCollapse
 {
-    public class Bukkit
-    {
-        public int sz;
-        public BlockID[,,] blocks;
-        public Bukkit(int sz)
-        {
-            this.sz = sz;
-            blocks = new BlockID[sz, sz,sz];
-        }
-        public override bool Equals(object obj)
-        {
-            Bukkit rhs = obj as Bukkit;
-            if (sz != rhs.sz) return false;
-            for (int x = 0; x < sz; x++)
-                for (int y = 0; y < sz; y++)
-                    for(int z=0; z < sz; z++)
-                    if (rhs[x,y,z] != blocks[x,y,z])
-                        return false;
-            return true;
-        }
-        public bool IsEmpty()
-        {
-            for (int i = 0; i < sz; i++)
-                for (int j = 0; j < sz; j++)
-                    for (int k = 0; k < sz; k++)
-                        if (blocks[i, j, k] != BlockID.Air)
-                            return false;
-            return true;
-        }
-        public BlockID this[int x, int y, int z]
-        {
-            get => blocks[x, y, z];
-            set => blocks[x, y, z] = value;
-        }
-        public override int GetHashCode()
-        {
-            return 0;
-        }
-    }
-
+    /// <summary>
+    /// Wave Function Collapse을 사용해서 맵을 생성하는 클래스
+    /// </summary>
     public class WaveFunctionCollapseMapGenerator : MapGenerator
     {
         public Vector3Int size;
@@ -67,6 +30,7 @@ namespace Minefarm.Map.Generator.WaveFunctionCollapse
         //Processing Result
         private Dictionary<Vector3Int, int> ret;
 
+        //인접한 위치
         const int COUNT_DIR = 26;
         readonly int[] dx = {  0, 0, 1, 1, 1, 0,-1,-1,-1, 0, 1, 1, 1, 0,-1,-1,-1, 0, 0, 1, 1, 1, 0,-1,-1,-1};
         readonly int[] dy = { -1,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
@@ -74,6 +38,7 @@ namespace Minefarm.Map.Generator.WaveFunctionCollapse
               
         private void ProcessSampling()
         {
+            //MapEncoder를 사용하여 맵을 K 단위로 압축한 맵으로 변경한다.
             new MapEncoder(this).Encode(sampleModels,
                 out bukkits,
                 out adjustDistribution,
@@ -82,6 +47,7 @@ namespace Minefarm.Map.Generator.WaveFunctionCollapse
             bukkitDistribution = bukkitCount.Clone();
             bukkitDistribution.Normalize();
         }
+        //엔트로피를 계산하는 함수
         private float CalculateEntropy(WeightedTable<int> table)
         {
             float ans = 0.0f;
@@ -163,6 +129,12 @@ namespace Minefarm.Map.Generator.WaveFunctionCollapse
             if (table.Count == 0) return -Vector3Int.one;
             return table.Pick();
         }
+
+        /// <summary>
+        /// 현재 위치가 관측되는 경우 상태를 결정하는 함수
+        /// </summary>
+        /// <param name="pos"> 상태를 결정하는 함수 </param>
+        /// <returns> 관측되는 여부 </returns>
         private bool Observe(Vector3Int pos)
         {
             int selected = 0;
@@ -178,6 +150,10 @@ namespace Minefarm.Map.Generator.WaveFunctionCollapse
             ret[pos] = selected;
             return true;
         }
+        /// <summary>
+        /// 현재 위치에 주변으로 엔트로피를 전이하는 함수
+        /// </summary>
+        /// <param name="pos"> 전이할 위치 </param>
         private void Propagate(Vector3Int pos)
         {
             for(int i=0; i < COUNT_DIR; i++)
@@ -210,13 +186,14 @@ namespace Minefarm.Map.Generator.WaveFunctionCollapse
         }
 
         private bool InArea(Vector3Int pos)
-        => 0 <= pos.x && pos.x < size.x/kernel
+            => 0 <= pos.x && pos.x < size.x/kernel
             && 0 <= pos.y && pos.y < size.y/kernel
             && 0 <= pos.z && pos.z < size.z/kernel;
 
         public override Dictionary<Vector3Int, BlockID> CreateLayout()
         {
             Process();
+            //MapDecoder를 사용하여 K 단위로 압축한 맵을 해제한다.
             return new MapDecoder(this).Decode(ret, bukkits);
         }
     }
