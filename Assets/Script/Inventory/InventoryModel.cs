@@ -9,6 +9,9 @@ using UnityEngine.Events;
 namespace Minefarm.Inventory
 {
     /// <summary>
+    /// Item, QuickSlotItem, EquipmentItem은 하나의 List에서 관리된다.
+    /// 각 영역은 연속된 인덱스 구간으로 구별된다.
+    /// 
     /// 0 ~ 29 : Item Slot
     /// 30 ~ 36 : Quick Slot
     /// 37 ~ 43 : Equipment Slot
