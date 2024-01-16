@@ -91,13 +91,6 @@ namespace Minefarm.Map.Algorithm.Culling
                     Vector3Int left = pos + new Vector3Int(i, y, i - 1);
                     Vector3Int right = pos + new Vector3Int(i - 1, y, i);
 
-                    //if (CanPropagate(forward, mask)) 
-                    //    TestCullingUsingLineSweeper(forward);
-                    //if (CanPropagate(left, mask)) 
-                    //    TestCullingUsingLineSweeper(left);
-                    //if (CanPropagate(right, mask)) 
-                    //    TestCullingUsingLineSweeper(right);
-
                     if (CanPropagate(forward, mask))
                         TestCullingUsingLineSweeper(forward);
                     if (CanPropagate(left, mask))
@@ -111,61 +104,71 @@ namespace Minefarm.Map.Algorithm.Culling
         private bool CanPropagate(Vector3Int pos, bool mask)
             => model.IsBlock(pos) && model.blockModels[pos].visible.Value == mask;
 
-        //private int TestCullingUsingDSU(Vector3Int pos)
-        //{
-        //    if (!model.IsBlock(pos)) return - 1;
-        //    VisibleRange nowRange = GetForwardRange(model.blockModels[pos]);
-        //    OcclusionUnionFind ufLeft = new(nowRange), ufRight = new(nowRange);
+        /// <summary>
+        /// 서로소 집합을 사용해서 Culling 구간을 판별하는 함수
+        /// 라인 스위핑과 동일한 시간 복잡도이지만 평균적인 퍼포먼스는 좋지 않다.
+        /// </summary>
+        /// <param name="pos"> Culling Test할 위치 </param>
+        /// <returns> Culling 상태 </returns>
+        private int TestCullingUsingDSU(Vector3Int pos)
+        {
+            if (!model.IsBlock(pos)) return -1;
+            VisibleRange nowRange = GetForwardRange(model.blockModels[pos]);
+            OcclusionUnionFind ufLeft = new(nowRange), ufRight = new(nowRange);
 
-        //    bool IsCulling() => ufLeft.Check() && ufRight.Check();
+            bool IsCulling() => ufLeft.Check() && ufRight.Check();
 
-        //    Vector3Int upPos = pos + Vector3Int.up;
-        //    if (model.IsBlock(upPos))
-        //    {
-        //        VisibleRange range = GetForwardRange(model.blockModels[upPos]);
-        //        ufLeft.Add(range);
-        //        ufRight.Add(range);
-        //    }
+            Vector3Int upPos = pos + Vector3Int.up;
+            if (model.IsBlock(upPos))
+            {
+                VisibleRange range = GetForwardRange(model.blockModels[upPos]);
+                ufLeft.Add(range);
+                ufRight.Add(range);
+            }
 
-        //    bool Test()
-        //    {
-        //        for (int i = 1; i <= DEPTH; i++)
-        //        {
-        //            for (int y = i - 2; y <= i; y++)
-        //            {
-        //                Vector3Int forward = pos + new Vector3Int(-i, y, -i);
+            bool Test()
+            {
+                for (int i = 1; i <= DEPTH; i++)
+                {
+                    for (int y = i - 2; y <= i; y++)
+                    {
+                        Vector3Int forward = pos + new Vector3Int(-i, y, -i);
 
-        //                if (model.IsBlock(forward))
-        //                {
-        //                    VisibleRange range = GetFowardRange(model.blockModels[forward]);
-        //                    ufLeft.Add(range);
-        //                    ufRight.Add(range);
-        //                }
-        //                if (IsCulling()) return true;
+                        if (model.IsBlock(forward))
+                        {
+                            VisibleRange range = GetForwardRange(model.blockModels[forward]);
+                            ufLeft.Add(range);
+                            ufRight.Add(range);
+                        }
+                        if (IsCulling()) return true;
 
-        //                Vector3Int left = pos + new Vector3Int(-i, y, -i + 1);
-        //                if (model.IsBlock(left))
-        //                {
-        //                    VisibleRange range = GetSideRange(model.blockModels[left]);
-        //                    ufLeft.Add(range);
-        //                }
-        //                if (IsCulling()) return true;
+                        Vector3Int left = pos + new Vector3Int(-i, y, -i + 1);
+                        if (model.IsBlock(left))
+                        {
+                            VisibleRange range = GetSideRange(model.blockModels[left]);
+                            ufLeft.Add(range);
+                        }
+                        if (IsCulling()) return true;
 
-        //                Vector3Int right = pos + new Vector3Int(-i + 1, y, -i);
-        //                if (model.IsBlock(right))
-        //                {
-        //                    VisibleRange range = GetSideRange(model.blockModels[right]);
-        //                    ufRight.Add(range);
-        //                }
-        //                if (IsCulling()) return true;
-        //            }
-        //        }
-        //        return false;
-        //    }
+                        Vector3Int right = pos + new Vector3Int(-i + 1, y, -i);
+                        if (model.IsBlock(right))
+                        {
+                            VisibleRange range = GetSideRange(model.blockModels[right]);
+                            ufRight.Add(range);
+                        }
+                        if (IsCulling()) return true;
+                    }
+                }
+                return false;
+            }
 
-        //    return (Test() ? 1 : 0);
-        //}
+            return (Test() ? 1 : 0);
+        }
 
+        /// <summary>
+        /// 라인 스위핑을 사용해서 Culling 구간을 판별하는 함수
+        /// </summary>
+        /// <param name="pos"> Culling Test할 위치 </param>
         private void TestCullingUsingLineSweeper(Vector3Int pos)
         {
             if (!model.IsBlock(pos)) return;
