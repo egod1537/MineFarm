@@ -106,7 +106,10 @@ namespace Minefarm.Map.Algorithm.Culling
 
         /// <summary>
         /// 서로소 집합을 사용해서 Culling 구간을 판별하는 함수
-        /// 라인 스위핑과 동일한 시간 복잡도이지만 평균적인 퍼포먼스는 좋지 않다.
+        /// 라인 스위핑과 동일한 시간 복잡도이지만 평균적인 퍼포먼스는 낮을 것으로 예상된다.
+        ///  1. 컬링은 주로 가까운 블럭에서 발생한다. 
+        ///   -> 서로소 집합 방법은 모두 후보 블럭을 탐색해야하므로 이 이점이 활용되지 않는다.
+        ///  2. 상수로 역에커만 함수가 추가된다.
         /// </summary>
         /// <param name="pos"> Culling Test할 위치 </param>
         /// <returns> Culling 상태 </returns>
